@@ -14,21 +14,19 @@ export default function BreweryDetail() {
       .catch(e => console.error('fetching failed', e));
   }, [id])
 
-  console.log(detail)
+  if (!detail) return null;
 
-  if (!detail) {
-    return null;
-  } 
+  const {name, city, state, postal_code, country, phone, website_url} = detail;
 
   return (
     <main>
-      <h1>Brewery {id}</h1>
-      <p>Brewtown, Oregon 12345</p>
-      <p>United States</p>
-      <p>8005551234</p>
-      <p>
-        <a href='https://example.com'>View Website</a>
-      </p>
+      <h1>{name}</h1>
+      <p>{city}, {state} {postal_code}</p>
+      <p>{country}</p>
+      <p>{phone}</p>
+      {website_url && <p>
+        <a href={website_url} target="_blank">View Website</a>
+      </p>}
       <Link to='/breweries'>Back to Breweries</Link>
     </main>
   );
