@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import './List.css';
 
 const BrewItem = ({ name, city, state, id }) => {
   const link = `/breweries/${id}`
   return (
-    <li>
+    <li className="brew-item">
       <Link to={link}>{name}</Link> - {city}, {state}
     </li>
   )
@@ -43,7 +44,7 @@ export default function BreweryList() {
         <button type='reset'>Reset</button>
       </form>
       <button onClick={handleSortOrderChange}>{isAscending ? 'Ascending' : 'Descending'}</button>
-      <ul>
+      <ul className="brew-list">
         {brewlist.sort((a, b) => isAscending ? a.name > b.name : a.name < b.name).map(({ id, name, city, state}) => <BrewItem key={id} name={name} city={city} state={state} id={id} />)}
       </ul>
     </main>
