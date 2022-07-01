@@ -15,6 +15,7 @@ const SEARCH_ENDPOINT = (search, perPage = 10) => `https://api.openbrewerydb.org
 export default function BreweryList() {
   const [brewlist, setBrewList] = useState([]);
   const [search, setSearch] = useState('')
+  const [isAscending, setIsAscending] = useState(true)
 
   const handleSearch = (e) => {
     setSearch(e.target.value)
@@ -29,6 +30,10 @@ export default function BreweryList() {
       .catch(e => console.error('searching failed', e))
   }
 
+  const handleSortOrderChange = () => {
+    setIsAscending(!isAscending)
+  }
+
   return (
     <main>
       <h1>Brewery Catalog</h1>
@@ -37,8 +42,9 @@ export default function BreweryList() {
         <button type='submit'>Search</button>
         <button type='reset'>Reset</button>
       </form>
+      <button onClick={handleSortOrderChange}>{isAscending ? 'Ascending' : 'Descending'}</button>
       <ul>
-        {brewlist.map(({ id, name, city, state}) => <BrewItem key={id} name={name} city={city} state={state} id={id} />)}
+        {brewlist.sort((a, b) => isAscending ? a.name > b.name : a.name < b.name).map(({ id, name, city, state}) => <BrewItem key={id} name={name} city={city} state={state} id={id} />)}
       </ul>
     </main>
   );
