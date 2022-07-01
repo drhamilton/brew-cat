@@ -3,21 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 const DETAIL_ENDPOINT = (id) => `https://api.openbrewerydb.org/breweries/${id}`;
 
-export default function BreweryDetail() {
-  const { id } = useParams();
-  const [detail, setDetail] = useState()
-
-  useEffect(() => {
-    fetch(DETAIL_ENDPOINT(id))
-      .then(res => res.json())
-      .then(res => setDetail(res))
-      .catch(e => console.error('fetching failed', e));
-  }, [id])
-
-  if (!detail) return null;
-
-  const {name, city, state, postal_code, country, phone, website_url} = detail;
-
+export const BreweryDetailItem = ({name, city, state, postal_code, country, phone, website_url}) => {
   return (
     <main>
       <h1>{name}</h1>
@@ -31,3 +17,20 @@ export default function BreweryDetail() {
     </main>
   );
 }
+
+export default function BreweryDetail() {
+  const { id } = useParams();
+  const [detail, setDetail] = useState()
+
+  useEffect(() => {
+    fetch(DETAIL_ENDPOINT(id))
+      .then(res => res.json())
+      .then(res => setDetail(res))
+      .catch(e => console.error('fetching failed', e));
+  }, [id])
+
+  if (!detail) return null;
+
+  return <BreweryDetailItem {...detail} />
+}
+
